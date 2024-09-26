@@ -1,6 +1,6 @@
 import type {defaultOptions as contextDefaultOptions, RunFunction} from 'lib/context.js'
 import type {Dict, InputOptions} from 'more-types'
-import type {ContentModule} from 'src/make_knowledge_base/contentModule/ContentModule.js'
+import type {ContentModule} from 'src/contentModule/ContentModule.js'
 
 import {pathToFileURL} from 'url'
 
@@ -13,18 +13,18 @@ import readFileYaml from 'read-file-yaml'
 import {toYamlFile} from 'zeug'
 
 import * as ansi from 'lib/ansi.js'
-import {CodeContentModule} from 'src/make_knowledge_base/contentModule/CodeContentModule.js'
-import {HtmlContentModule} from 'src/make_knowledge_base/contentModule/HtmlContentModule.js'
-import {MarkdownContentModule} from 'src/make_knowledge_base/contentModule/MarkdownContentModule.js'
-import {CodeExtractor} from 'src/make_knowledge_base/extractor/CodeExtractor.js'
-import {DownloadExtractor} from 'src/make_knowledge_base/extractor/DownloadExtractor.js'
-import {HtmlExtractor} from 'src/make_knowledge_base/extractor/HtmlExtractor.js'
-import {HtmlFromMarkdownExtractor} from 'src/make_knowledge_base/extractor/HtmlFromMarkdownExtractor.js'
-import {MarkdownExtractor} from 'src/make_knowledge_base/extractor/MarkdownExtractor.js'
-import {MarkdownFromHtmlExtractor} from 'src/make_knowledge_base/extractor/MarkdownFromHtmlExtractor.js'
-import {RedditThreadExtractor} from 'src/make_knowledge_base/extractor/RedditThreadExtractor.js'
-import {WikimediaExtractor} from 'src/make_knowledge_base/extractor/WikimediaExtractor.js'
-import {outputEngineTypes} from 'src/make_knowledge_base/outputEngine/index.js'
+import {CodeContentModule} from 'src/contentModule/CodeContentModule.js'
+import {HtmlContentModule} from 'src/contentModule/HtmlContentModule.js'
+import {MarkdownContentModule} from 'src/contentModule/MarkdownContentModule.js'
+import {CodeExtractor} from 'src/extractor/CodeExtractor.js'
+import {DownloadExtractor} from 'src/extractor/DownloadExtractor.js'
+import {HtmlExtractor} from 'src/extractor/HtmlExtractor.js'
+import {HtmlFromMarkdownExtractor} from 'src/extractor/HtmlFromMarkdownExtractor.js'
+import {MarkdownExtractor} from 'src/extractor/MarkdownExtractor.js'
+import {MarkdownFromHtmlExtractor} from 'src/extractor/MarkdownFromHtmlExtractor.js'
+import {RedditThreadExtractor} from 'src/extractor/RedditThreadExtractor.js'
+import {WikimediaExtractor} from 'src/extractor/WikimediaExtractor.js'
+import {outputEngineTypes} from 'src/outputEngine/index.js'
 
 import {guessExtractor} from './guessExtractor.js'
 
@@ -177,7 +177,7 @@ export const run: RunFunction<Options> = async (options, context) => {
       if (entry.extractor === undefined) {
         throw new TypeError(`Extractor is not defined`)
       }
-      const timestamp = epochSeconds() as number
+      const timestamp = epochSeconds()
       const pageId = value.page ?? ``
       if (!cacheIndex[pageId]) {
         cacheIndex[pageId] = {}

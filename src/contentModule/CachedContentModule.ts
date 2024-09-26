@@ -1,4 +1,4 @@
-import type {CacheContentModule, Entry} from 'src/make_knowledge_base/cli.js'
+import type {CacheContentModule, Entry} from 'src/cli.js'
 
 import {ContentModule} from './ContentModule.js'
 

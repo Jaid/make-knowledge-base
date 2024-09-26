@@ -1,7 +1,7 @@
 import showdown from 'showdown'
 
-import {HtmlExtractor} from 'src/make_knowledge_base/extractor/HtmlExtractor.js'
-import {markdownToSimpleHtml} from 'src/make_knowledge_base/lib/markdownToSimpleHtml.js'
+import {HtmlExtractor} from 'src/extractor/HtmlExtractor.js'
+import {markdownToSimpleHtml} from 'src/lib/markdownToSimpleHtml.js'
 
 export type ExtraOptions = {
 }

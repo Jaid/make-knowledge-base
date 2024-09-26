@@ -1,7 +1,7 @@
 import type {Context as ParentContext, RunFunction} from 'lib/context.js'
 import type {Dict, FirstParameter} from 'more-types'
-import type {Options} from 'src/make_knowledge_base/cli.js'
-import type {ContentModule} from 'src/make_knowledge_base/contentModule/ContentModule.js'
+import type {Options} from 'src/cli.js'
+import type {ContentModule} from 'src/contentModule/ContentModule.js'
 
 import * as path from 'forward-slash-path'
 import fs from 'fs-extra'
@@ -24,7 +24,7 @@ export abstract class OutputEngine {
   async outputFile(outputText: string, outputFileStem: string) {
     const outputFile = path.join(this.context.outputFolder, `dist`, `${outputFileStem}.${this.context.options.outputFileExtension ?? `html`}`)
     await fs.outputFile(outputFile, outputText)
-    this.context.log(`→ ` + await ansi.linkedFileWithSize(outputFile))
+    this.context.log(`→ ${await ansi.linkedFileWithSize(outputFile)}`)
   }
   async outputHtmlFile(outputText: string, outputFileStem: string) {
     let text = outputText

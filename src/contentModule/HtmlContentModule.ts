@@ -1,4 +1,4 @@
-import {ContentModule} from 'src/make_knowledge_base/contentModule/ContentModule.js'
+import {ContentModule} from 'src/contentModule/ContentModule.js'
 
 export class HtmlContentModule extends ContentModule {
   asHtml(): string {

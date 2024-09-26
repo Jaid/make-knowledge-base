@@ -1,8 +1,8 @@
-import type {ContentModule} from 'src/make_knowledge_base/contentModule/ContentModule.js'
+import type {ContentModule} from 'src/contentModule/ContentModule.js'
 
 import {renderHandlebars} from 'zeug'
 
-import {OutputEngine} from 'src/make_knowledge_base/outputEngine/OutputEngine.js'
+import {OutputEngine} from 'src/outputEngine/OutputEngine.js'
 
 const template = /* handlebars */ `
 <!DOCTYPE html>

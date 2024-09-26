@@ -1,4 +1,4 @@
-import type {Entry} from 'src/make_knowledge_base/cli.js'
+import type {Entry} from 'src/cli.js'
 
 export abstract class ContentModule {
   entry: Entry

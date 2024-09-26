@@ -1,4 +1,4 @@
-import type {AnonymousEntry, Entry, extractors} from 'src/make_knowledge_base/cli.js'
+import type {AnonymousEntry, Entry, extractors} from 'src/cli.js'
 import type {Promisable} from 'type-fest'
 
 import {pipeline} from 'node:stream/promises'
@@ -11,7 +11,7 @@ import * as lodash from 'lodash-es'
 import * as tarFs from 'tar-fs'
 import * as tempy from 'tempy'
 
-import {Octokit} from 'src/make_knowledge_base/lib/Octokit.js'
+import {Octokit} from 'src/lib/Octokit.js'
 
 const defaultGlobbyOptions = {
   caseSensitiveMatch: false,
@@ -134,28 +134,26 @@ export const entryPresets: Record<EntryPresetsKey, EntryPreset> = {
     }
     const target = entry.target as GitHubGlobTarget
     const repoId = target.branch ? `${target.owner}_${target.repo}_${target.branch}` : `${target.owner}_${target.repo}`
-    const tempFolder = await tempy.temporaryDirectory({prefix: `github-repo-${repoId}-`})
+    const temporaryFolder = await tempy.temporaryDirectory({prefix: `github-repo-${repoId}-`})
     const branch = target.branch ?? `master`
     const tarGzUrl = `https://github.com/${target.owner}/${target.repo}/archive/${branch}.tar.gz`
-    await pipeline(got.stream(tarGzUrl),
-      createGunzip(),
-      tarFs.extract(tempFolder, {
-        strict: false,
-        readable: true,
-        writable: true,
-        ignore: (_, header) => {
-          if (header.type === `file`) {
-            return false
-          }
-          if (header.type === `directory`) {
-            return false
-          }
-          return true
-        },
-      }))
+    await pipeline(got.stream(tarGzUrl), createGunzip(), tarFs.extract(temporaryFolder, {
+      strict: false,
+      readable: true,
+      writable: true,
+      ignore: (_, header) => {
+        if (header.type === `file`) {
+          return false
+        }
+        if (header.type === `directory`) {
+          return false
+        }
+        return true
+      },
+    }))
     const extractedFolders = await globby(`*`, {
       onlyDirectories: true,
-      cwd: tempFolder,
+      cwd: temporaryFolder,
     })
     if (extractedFolders.length === 0) {
       throw new Error(`No folders extracted from ${tarGzUrl}`)
@@ -163,7 +161,7 @@ export const entryPresets: Record<EntryPresetsKey, EntryPreset> = {
     if (extractedFolders.length > 1) {
       throw new Error(`More than one folder extracted from ${tarGzUrl}`)
     }
-    const newFolder = path.join(tempFolder, extractedFolders[0])
+    const newFolder = path.join(temporaryFolder, extractedFolders[0])
     return {
       extractor: `code`,
       ...entry,
@@ -207,7 +205,7 @@ export const entryPresets: Record<EntryPresetsKey, EntryPreset> = {
       const file = path.join(target.globbyOptions.cwd, filePartial)
       const title = `${target.titlePrefix ?? ``}${filePartial}`
       resultEntries.push({
-        id: entry.id + `_${index}_${path.stem(file)}`,
+        id: `${entry.id}_${index}_${path.stem(file)}`,
         title: entry.title ? `${entry.title} - ${title}` : title,
         url: file,
         ...lodash.pick(entry, [`extractor`, `page`]),

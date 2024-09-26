@@ -1,7 +1,7 @@
 import {renderHandlebars} from 'zeug'
 
-import {DownloadExtractor} from 'src/make_knowledge_base/extractor/DownloadExtractor.js'
-import {markdownToSimpleHtml} from 'src/make_knowledge_base/lib/markdownToSimpleHtml.js'
+import {DownloadExtractor} from 'src/extractor/DownloadExtractor.js'
+import {markdownToSimpleHtml} from 'src/lib/markdownToSimpleHtml.js'
 
 export type ExtraOptions = {
   commentsLimit?: number

@@ -5,8 +5,8 @@ import * as path from 'forward-slash-path'
 import fs from 'fs-extra'
 import puppeteer from 'puppeteer-core'
 
-import {HtmlContentModule} from 'src/make_knowledge_base/contentModule/HtmlContentModule.js'
-import {DownloadExtractor} from 'src/make_knowledge_base/extractor/DownloadExtractor.js'
+import {HtmlContentModule} from 'src/contentModule/HtmlContentModule.js'
+import {DownloadExtractor} from 'src/extractor/DownloadExtractor.js'
 
 export type ExtraOptions = {
   domSelector?: string
@@ -42,7 +42,7 @@ export class HtmlExtractor<ExtraOptionsGeneric = {}> extends DownloadExtractor<E
           `--enable-font-antialiasing`,
         ],
         executablePath: this.context.options.chromeExecutable,
-        headless: headless,
+        headless,
       })
       const page = await browser.newPage()
       for (const [name, value] of Object.entries(this.entry.cookies ?? {})) {

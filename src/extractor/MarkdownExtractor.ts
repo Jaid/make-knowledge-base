@@ -1,5 +1,5 @@
-import {MarkdownContentModule} from 'src/make_knowledge_base/contentModule/MarkdownContentModule.js'
-import {DownloadExtractor} from 'src/make_knowledge_base/extractor/DownloadExtractor.js'
+import {MarkdownContentModule} from 'src/contentModule/MarkdownContentModule.js'
+import {DownloadExtractor} from 'src/extractor/DownloadExtractor.js'
 
 export type ExtraOptions = {
 }

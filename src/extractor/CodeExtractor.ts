@@ -7,9 +7,9 @@ import {toCleanYaml} from 'zeug'
 
 import JsonCompressor from 'lib/package/compress-for-llm/compressor/JsonCompressor.js'
 import PythonCompressor from 'lib/package/compress-for-llm/compressor/PythonCompressor.js'
-import {CodeContentModule} from 'src/make_knowledge_base/contentModule/CodeContentModule.js'
-import {DownloadExtractor} from 'src/make_knowledge_base/extractor/DownloadExtractor.js'
-import {minifyText} from 'src/make_knowledge_base/lib/minifyText.js'
+import {CodeContentModule} from 'src/contentModule/CodeContentModule.js'
+import {DownloadExtractor} from 'src/extractor/DownloadExtractor.js'
+import {minifyText} from 'src/lib/minifyText.js'
 
 export type ExtraOptions = {
 }

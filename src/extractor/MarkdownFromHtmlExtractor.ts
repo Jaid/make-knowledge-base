@@ -1,7 +1,7 @@
 import TurndownService from 'turndown'
 
-import {MarkdownContentModule} from 'src/make_knowledge_base/contentModule/MarkdownContentModule.js'
-import {HtmlExtractor} from 'src/make_knowledge_base/extractor/HtmlExtractor.js'
+import {MarkdownContentModule} from 'src/contentModule/MarkdownContentModule.js'
+import {HtmlExtractor} from 'src/extractor/HtmlExtractor.js'
 
 export type ExtraOptions = {
 }

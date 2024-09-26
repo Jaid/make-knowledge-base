@@ -1,8 +1,8 @@
 import type {Context} from 'lib/context.ts'
-import type {Options} from 'src/make_knowledge_base/cli.ts'
-import type {ContentModule} from 'src/make_knowledge_base/contentModule/ContentModule.js'
+import type {Options} from 'src/cli.ts'
+import type {ContentModule} from 'src/contentModule/ContentModule.js'
 
-import {HtmlContentModule} from 'src/make_knowledge_base/contentModule/HtmlContentModule.js'
+import {HtmlContentModule} from 'src/contentModule/HtmlContentModule.js'
 
 export type Entry<ExtraOptions = {}> = ExtraOptions & {
   id: string

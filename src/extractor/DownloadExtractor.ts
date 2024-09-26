@@ -5,7 +5,7 @@ import * as path from 'forward-slash-path'
 import fs from 'fs-extra'
 import got from 'got'
 
-import {Extractor} from 'src/make_knowledge_base/extractor/Extractor.js'
+import {Extractor} from 'src/extractor/Extractor.js'
 
 type ExtraOptions = {
   cookies?: Dict<Dict | string>
@@ -44,12 +44,12 @@ export class DownloadExtractor<ExtraOptionsGeneric = {}> extends Extractor<Extra
   async init() {
     const url = this.getDownloadUrl()
     if (path.isAbsolute(url)) {
-      this.logVerbose(`File ` + url)
+      this.logVerbose(`File ${url}`)
       this.content = await fs.readFile(url, `utf8`)
     } else {
       this.logVerbose(url)
       this.response = await got({
-        url: url,
+        url,
         method: this.entry.method ?? `get`,
       })
       this.content = this.response.body
