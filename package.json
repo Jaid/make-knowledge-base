@@ -1,0 +1,16 @@
+{
+  "name": "make-knowledge-base",
+  "version": "0.0.0",
+  "type": "module",
+  "scripts": {
+    "start": "printf 'No %s script specified\\n' $npm_lifecycle_event >&2",
+    "build": "printf 'No %s script specified\\n' $npm_lifecycle_event >&2",
+    "test": "printf 'No %s script specified\\n' $npm_lifecycle_event >&2",
+    "env": "wireit"
+  },
+  "wireit": {
+    "env": {
+      "command": "env | sort"
+    }
+  }
+}
