@@ -5,8 +5,26 @@ __metadata:
   version: 8
   cacheKey: 10
 
+"@types/node@npm:^22.7.3":
+  version: 22.7.3
+  resolution: "@types/node@npm:22.7.3"
+  dependencies:
+    undici-types: "npm:~6.19.2"
+  checksum: 10/f5e450c8c0588506698c6dd5fb9617cc516e2bd35417d853c96378533bc45b69219715ecc5d78667a194387647e69a10852b348b52e2d45f41ec75985cd3ef88
+  languageName: node
+  linkType: hard
+
 "make-knowledge-base@workspace:.":
   version: 0.0.0-use.local
   resolution: "make-knowledge-base@workspace:."
+  dependencies:
+    "@types/node": "npm:^22.7.3"
   languageName: unknown
   linkType: soft
+
+"undici-types@npm:~6.19.2":
+  version: 6.19.8
+  resolution: "undici-types@npm:6.19.8"
+  checksum: 10/cf0b48ed4fc99baf56584afa91aaffa5010c268b8842f62e02f752df209e3dea138b372a60a963b3b2576ed932f32329ce7ddb9cb5f27a6c83040d8cd74b7a70
+  languageName: node
+  linkType: hard
