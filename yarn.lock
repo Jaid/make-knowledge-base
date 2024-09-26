@@ -3690,6 +3690,7 @@ __metadata:
     tsx: "npm:^4.19.1"
     typescript: "npm:^5.6.2"
     wireit: "npm:^0.14.9"
+    zeug: "npm:^2.0.0"
   languageName: unknown
   linkType: soft
 
@@ -5922,5 +5923,25 @@ __metadata:
     yaml: "npm:^2.4.3"
     yargs: "npm:^17.7.2"
   checksum: 10/6a63bb6268ecd863f917b7f03336d5bd77528c1eb68c05208236180dd68292100f91387f7fbee2a2c4cefa28f4ed9b07cbf59b9560566ba1a26ed949d0c62008
+  languageName: node
+  linkType: hard
+
+"zeug@npm:^2.0.0":
+  version: 2.0.0
+  resolution: "zeug@npm:2.0.0"
+  dependencies:
+    "@prettier/sync": "npm:^0.5.2"
+    format-thousands: "npm:^2.0.0"
+    fs-extra: "npm:^11.2.0"
+    handlebars: "npm:^4.7.8"
+    immer: "npm:^10.1.1"
+    map-obj: "npm:^5.0.2"
+    normalize-package-data: "npm:^6.0.1"
+    prettier: "npm:^3.3.0"
+    super-regex: "npm:^1.0.0"
+    type-fest: "npm:^4.18.3"
+    yaml: "npm:^2.4.3"
+    yargs: "npm:^17.7.2"
+  checksum: 10/18c7a2b8d29ae8db2431a690f12aa4fb8631c66afcd1ead055f32a3a264323c85bc3e2e88843daef4a3a89c27b8506ce67977e9389b99257779369acda72bd70
   languageName: node
   linkType: hard
