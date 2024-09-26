@@ -9,7 +9,6 @@ import JsonCompressor from 'lib/package/compress-for-llm/compressor/JsonCompress
 import PythonCompressor from 'lib/package/compress-for-llm/compressor/PythonCompressor.js'
 import {CodeContentModule} from 'src/contentModule/CodeContentModule.js'
 import {DownloadExtractor} from 'src/extractor/DownloadExtractor.js'
-import {minifyText} from 'src/lib/minifyText.js'
 
 export type ExtraOptions = {
 }
@@ -39,13 +38,14 @@ const formatters: Dict<(input: string) => Promisable<string>> = {
       tabWidth: 2,
       trailingComma: `none`,
     })
-    const codeCleaned = minifyText(codeFormatted)
-    return codeCleaned
+    // const codeCleaned = minifyText(codeFormatted)
+    return codeFormatted
   },
   py: input => pythonCompressor.compress(input),
   toml: input => {
-    const codeCleaned = minifyText(input)
-    return codeCleaned
+    // const codeCleaned = minifyText(input)
+    // return codeCleaned
+    return input
   },
 } as const
 
