@@ -1,3 +1,4 @@
+import type {FirstParameter} from 'more-types'
 import type {InferredOptionTypes} from 'yargs'
 
 import {makeCli} from 'zeug'
@@ -17,8 +18,10 @@ const globalOptions = {
     description: `Output additional debug information to file system`,
   },
 } as const
-const cli = makeCli({
-  command: mainCommand,
-  strict: true,
-})
-export default cli
+export default (additionalOptions: FirstParameter<typeof makeCli> = {}) => {
+  return makeCli({
+    command: mainCommand,
+    strict: true,
+    ...additionalOptions,
+  })
+}
