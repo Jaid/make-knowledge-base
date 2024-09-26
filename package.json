@@ -16,6 +16,7 @@
   "devDependencies": {
     "@types/node": "^22.7.3",
     "eslint-config-jaid": "^12.1.1",
-    "rollup-config-factory": "^0.4.1"
+    "rollup-config-factory": "^0.4.1",
+    "tsconfig-jaid-node": "^8.1.0"
   }
 }

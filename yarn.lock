@@ -3367,6 +3367,7 @@ __metadata:
     "@types/node": "npm:^22.7.3"
     eslint-config-jaid: "npm:^12.1.1"
     rollup-config-factory: "npm:^0.4.1"
+    tsconfig-jaid-node: "npm:^8.1.0"
   languageName: unknown
   linkType: soft
 
@@ -5138,6 +5139,16 @@ __metadata:
   languageName: node
   linkType: hard
 
+"tsconfig-jaid-node@npm:^8.1.0":
+  version: 8.1.0
+  resolution: "tsconfig-jaid-node@npm:8.1.0"
+  dependencies:
+    type-fest: "npm:^4.14.0"
+    typescript: "npm:^5.4.3"
+  checksum: 10/80ef131c523f5dab7efe46cead519dc652641208bb9f9b5d19d8ff0e4841b542c9dd92c1a54b5a9d43e1e89c7c2ac4eef3ec48ef4d265a06fd1f87d686761732
+  languageName: node
+  linkType: hard
+
 "tslib@npm:^2.1.0, tslib@npm:^2.3.1, tslib@npm:^2.6.1, tslib@npm:^2.6.2, tslib@npm:^2.6.3":
   version: 2.7.0
   resolution: "tslib@npm:2.7.0"
@@ -5175,14 +5186,14 @@ __metadata:
   languageName: node
   linkType: hard
 
-"type-fest@npm:^4.18.3":
+"type-fest@npm:^4.14.0, type-fest@npm:^4.18.3":
   version: 4.26.1
   resolution: "type-fest@npm:4.26.1"
   checksum: 10/b82676194f80af228cb852e320d2ea8381c89d667d2e4d9f2bdfc8f254bccc039c7741a90c53617a4de0c9fdca8265ed18eb0888cd628f391c5c381c33a9f94b
   languageName: node
   linkType: hard
 
-"typescript@npm:>=5.0.2, typescript@npm:^5.4.5":
+"typescript@npm:>=5.0.2, typescript@npm:^5.4.3, typescript@npm:^5.4.5":
   version: 5.6.2
   resolution: "typescript@npm:5.6.2"
   bin:
@@ -5192,7 +5203,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"typescript@patch:typescript@npm%3A>=5.0.2#optional!builtin<compat/typescript>, typescript@patch:typescript@npm%3A^5.4.5#optional!builtin<compat/typescript>":
+"typescript@patch:typescript@npm%3A>=5.0.2#optional!builtin<compat/typescript>, typescript@patch:typescript@npm%3A^5.4.3#optional!builtin<compat/typescript>, typescript@patch:typescript@npm%3A^5.4.5#optional!builtin<compat/typescript>":
   version: 5.6.2
   resolution: "typescript@patch:typescript@npm%3A5.6.2#optional!builtin<compat/typescript>::version=5.6.2&hash=8c6c40"
   bin:
