@@ -1,7 +1,7 @@
-import type {Context} from 'lib/context.ts'
-import type {Options} from 'src/cli.ts'
 import type {ContentModule} from 'src/contentModule/ContentModule.js'
+import type {RunSingleOptions} from 'src/run.js'
 
+import debug from 'lib/debug.js'
 import {HtmlContentModule} from 'src/contentModule/HtmlContentModule.js'
 
 export type Entry<ExtraOptions = {}> = ExtraOptions & {
@@ -10,9 +10,9 @@ export type Entry<ExtraOptions = {}> = ExtraOptions & {
   url: string
 }
 
-type ExtractorContext = Context & {
+type ExtractorContext = {
+  args: RunSingleOptions
   id: string
-  options: Options['merged']
 }
 
 export type ContentTypeId = keyof typeof contentTypes
@@ -53,9 +53,9 @@ export abstract class Extractor<ExtraOptions = {}> {
   async init() {
   }
   log(message: string) {
-    this.context.log(`  ${message}`)
+    console.log(`  ${message}`)
   }
   logVerbose(message: string) {
-    this.context.logVerbose(`  ${message}`)
+    debug(`  ${message}`)
   }
 }

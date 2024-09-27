@@ -1,12 +1,11 @@
 import type {FirstParameter} from 'more-types'
 
 import * as cheerio from 'cheerio'
-import * as path from 'forward-slash-path'
-import fs from 'fs-extra'
 import puppeteer from 'puppeteer-core'
 
 import {HtmlContentModule} from 'src/contentModule/HtmlContentModule.js'
 import {DownloadExtractor} from 'src/extractor/DownloadExtractor.js'
+import debug from 'lib/debug.js'
 
 export type ExtraOptions = {
   domSelector?: string
@@ -24,25 +23,15 @@ export class HtmlExtractor<ExtraOptionsGeneric = {}> extends DownloadExtractor<E
     if (!this.entry.puppeteer) {
       await super.init()
       if (this.entry.domSelector) {
-        if (this.context.options.debug) {
-          const rawHtmlFile = path.join(this.context.tempFolder, 'debug', `${this.context.id}.html`)
-          this.context.log(`Writing raw HTML to ${rawHtmlFile}`)
-          await fs.outputFile(rawHtmlFile, this.content)
-        }
         const cheerioPage = cheerio.load(this.content)
         this.content = cheerioPage(this.entry.domSelector).html() ?? ''
       }
     } else {
       const headless = this.entry.headless ?? true
+      debug('Launching %s (%s) for %s', this.context.args.chromeExecutable, headless ? 'headless' : 'window', this.entry.url)
       const browser = await puppeteer.launch({
-        args: [
-          '--no-sandbox',
-          '--disable-setuid-sandbox',
-          '--font-render-hinting=medium',
-          '--enable-font-antialiasing',
-        ],
-        executablePath: this.context.options.chromeExecutable,
-        headless,
+        executablePath: this.context.args.chromeExecutable,
+        headless: true,
       })
       const page = await browser.newPage()
       for (const [name, value] of Object.entries(this.entry.cookies ?? {})) {
@@ -50,6 +39,7 @@ export class HtmlExtractor<ExtraOptionsGeneric = {}> extends DownloadExtractor<E
           name,
           path: '/',
           secure: true,
+          domain: new URL(this.entry.url).hostname,
         } as FirstParameter<typeof page.setCookie>
         if (typeof value === 'string') {
           cookie.value = value

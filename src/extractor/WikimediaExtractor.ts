@@ -17,10 +17,8 @@ export class WikimediaExtractor<ExtraOptionsGeneric = {}> extends DownloadExtrac
     const textFile = path.join(this.context.tempFolder, 'download', 'mediawiki', `${this.context.id}.txt`)
     await fs.outputFile(textFile, text)
     const $ = this.context.$({
-      // @ts-expect-error
       stdout: 'pipe',
     })
-    // @ts-expect-error
     const execa = await $({
       stdout: 'pipe',
     })`${this.context.options.pandocPath} --from mediawiki --to markdown --standalone --embed-resources --wrap none --no-highlight ${textFile}`

@@ -68,6 +68,10 @@ export const builder = (argv: Argv) => {
       type: 'string',
       description: 'Output tree file',
     })
+    .option('outputFolder', {
+      type: 'string',
+      description: 'Output folder for compiled knowledge bases; will be nested into a folder named after the project ID; if not specified, the output will be written to the project folder (into a folder named “out”)',
+    })
 }
 
 export const handler = async (args: ArgsMerged) => {

@@ -956,6 +956,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@types/object-hash@npm:^3":
+  version: 3.0.6
+  resolution: "@types/object-hash@npm:3.0.6"
+  checksum: 10/2c7979d4e540af817b99c09fb4c2fed1c0b0e14342df474d8dcde4165a82c440b038341fd66fe998d9f86acdd5cccc65ba8092315e39e7c2114f945fa70aaa56
+  languageName: node
+  linkType: hard
+
 "@types/object-path@npm:^0.11.4":
   version: 0.11.4
   resolution: "@types/object-path@npm:0.11.4"
@@ -2420,6 +2427,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"epoch-seconds@npm:^4.0.1":
+  version: 4.0.1
+  resolution: "epoch-seconds@npm:4.0.1"
+  checksum: 10/9afd2fda68bd32a91d7101034c8c06a9260907923f14b4df1af5eb7a399364756cf13c214d62a6c88e95d3c71351d5f2749390b509742dbf211082b76d37cce6
+  languageName: node
+  linkType: hard
+
 "err-code@npm:^2.0.2":
   version: 2.0.3
   resolution: "err-code@npm:2.0.3"
@@ -3231,6 +3245,17 @@ __metadata:
   dependencies:
     map-cache: "npm:^0.2.2"
   checksum: 10/1cbbd0b0116b67d5790175de0038a11df23c1cd2e8dcdbade58ebba5594c2d641dade6b4f126d82a7b4a6ffc2ea12e3d387dbb64ea2ae97cf02847d436f60fdc
+  languageName: node
+  linkType: hard
+
+"fs-extra@npm:^10.0.0":
+  version: 10.1.0
+  resolution: "fs-extra@npm:10.1.0"
+  dependencies:
+    graceful-fs: "npm:^4.2.0"
+    jsonfile: "npm:^6.0.1"
+    universalify: "npm:^2.0.0"
+  checksum: 10/05ce2c3b59049bcb7b52001acd000e44b3c4af4ec1f8839f383ef41ec0048e3cfa7fd8a637b1bddfefad319145db89be91f4b7c1db2908205d38bf91e7d1d3b7
   languageName: node
   linkType: hard
 
@@ -4441,11 +4466,13 @@ __metadata:
     "@types/html-minifier": "npm:^4"
     "@types/lodash-es": "npm:^4"
     "@types/node": "npm:^22.7.4"
+    "@types/object-hash": "npm:^3"
     "@types/showdown": "npm:^2"
     chalk: "npm:^5.3.0"
     cssnano: "npm:^7.0.6"
     debug: "npm:^4.3.7"
     dedent: "npm:^1.5.3"
+    epoch-seconds: "npm:^4.0.1"
     eslint-config-jaid: "npm:^13.0.0"
     execa: "npm:^9.4.0"
     forward-slash-path: "npm:^0.3.0"
@@ -4453,13 +4480,16 @@ __metadata:
     html-minifier: "npm:^4.0.0"
     json5: "npm:^2.2.3"
     lodash-es: "npm:^4.17.21"
+    object-hash: "npm:^3.0.0"
     postcss: "npm:^8.4.47"
     pretty-ms: "npm:^9.1.0"
     puppeteer-core: "npm:^23.4.1"
+    read-file-yaml: "npm:^2.0.0"
     rollup-config-factory: "npm:^0.4.1"
     showdown: "npm:^2.1.0"
     tar-fs: "npm:^3.0.6"
     terminal-link: "npm:^3.0.0"
+    tiktoken: "npm:^1.0.16"
     tsconfig-jaid-node: "npm:^8.1.0"
     tsx: "npm:^4.19.1"
     turndown: "npm:^7.2.0"
@@ -4937,6 +4967,13 @@ __metadata:
     define-property: "npm:^0.2.5"
     kind-of: "npm:^3.0.3"
   checksum: 10/a9e35f07e3a2c882a7e979090360d1a20ab51d1fa19dfdac3aa8873b328a7c4c7683946ee97c824ae40079d848d6740a3788fa14f2185155dab7ed970a72c783
+  languageName: node
+  linkType: hard
+
+"object-hash@npm:^3.0.0":
+  version: 3.0.0
+  resolution: "object-hash@npm:3.0.0"
+  checksum: 10/f498d456a20512ba7be500cef4cf7b3c183cc72c65372a549c9a0e6dd78ce26f375e9b1315c07592d3fde8f10d5019986eba35970570d477ed9a2a702514432a
   languageName: node
   linkType: hard
 
@@ -5782,6 +5819,25 @@ __metadata:
   dependencies:
     safe-buffer: "npm:^5.1.0"
   checksum: 10/4efd1ad3d88db77c2d16588dc54c2b52fd2461e70fe5724611f38d283857094fe09040fa2c9776366803c3152cf133171b452ef717592b65631ce5dc3a2bdafc
+  languageName: node
+  linkType: hard
+
+"read-file-string@npm:^1.1.2":
+  version: 1.1.2
+  resolution: "read-file-string@npm:1.1.2"
+  dependencies:
+    fs-extra: "npm:^10.0.0"
+  checksum: 10/2987ced7891da3d2f9ea17ec7e082cbdfd846b24848d7fb081c3ec4af4de7d6c37def6a3d493970fc3d919e3ce973124daa33dba6d1127744b41790310c1b7c6
+  languageName: node
+  linkType: hard
+
+"read-file-yaml@npm:^2.0.0":
+  version: 2.0.0
+  resolution: "read-file-yaml@npm:2.0.0"
+  dependencies:
+    js-yaml: "npm:^4.1.0"
+    read-file-string: "npm:^1.1.2"
+  checksum: 10/ecb302b3731db96a9612c8a874166a6ec231d4a54ba89ceff8d9884b0cb3367c95a690f2e434070c18c3e08fbc69b20f3250e1d3825e04fdc9f6e3803e33009b
   languageName: node
   linkType: hard
 
@@ -6837,6 +6893,13 @@ __metadata:
   version: 2.3.8
   resolution: "through@npm:2.3.8"
   checksum: 10/5da78346f70139a7d213b65a0106f3c398d6bc5301f9248b5275f420abc2c4b1e77c2abc72d218dedc28c41efb2e7c312cb76a7730d04f9c2d37d247da3f4198
+  languageName: node
+  linkType: hard
+
+"tiktoken@npm:^1.0.16":
+  version: 1.0.16
+  resolution: "tiktoken@npm:1.0.16"
+  checksum: 10/af8bcc1bd3f7634335c1d7da4b5b3201b25f9724024da8a03981d5fce25098ef9c2d71a0cb5760fd4f446742465a0247b47b3c70fc6b1d5eae2d24bbf1bae080
   languageName: node
   linkType: hard
 

@@ -1,5 +1,3 @@
-import showdown from 'showdown'
-
 import {HtmlExtractor} from 'src/extractor/HtmlExtractor.js'
 import {markdownToSimpleHtml} from 'src/lib/markdownToSimpleHtml.js'
 

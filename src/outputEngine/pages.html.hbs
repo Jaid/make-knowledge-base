@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html lang=en>
+  <body>
+    <h1>Knowledge Base</h1>
+    <main>
+      {{#each contentModules}}
+        {{#if title}}
+          <h2>{{title}}</h2>
+        {{else if entry.title}}
+          <h2>{{entry.title}}</h2>
+        {{/if}}
+        {{renderContentModule this}}
+      {{/each}}
+    </main>
+  </body>
+</html>

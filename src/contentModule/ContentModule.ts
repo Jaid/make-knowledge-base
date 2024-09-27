@@ -1,4 +1,4 @@
-import type {Entry} from 'src/cli.js'
+import type {Entry} from 'src/run.js'
 
 export abstract class ContentModule {
   entry: Entry
@@ -8,6 +8,9 @@ export abstract class ContentModule {
     this.entry = entry
     this.sourceText = sourceText
     this.title = title
+  }
+  getFileExtension() {
+    return 'txt'
   }
   abstract asHtml(): string
   getTitle() {

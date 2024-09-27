@@ -1,30 +1,15 @@
 import type {ContentModule} from 'src/contentModule/ContentModule.js'
 
+import * as path from 'forward-slash-path'
+import fs from 'fs-extra'
 import {renderHandlebars} from 'zeug'
 
 import {OutputEngine} from 'src/outputEngine/OutputEngine.js'
 
-const template = /* handlebars */ `
-<!DOCTYPE html>
-<html lang=en>
-  <body>
-    <h1>Knowledge Base</h1>
-    <main>
-      {{#each contentModules}}
-        {{#if title}}
-          <h2>{{title}}</h2>
-        {{else if entry.title}}
-          <h2>{{entry.title}}</h2>
-        {{/if}}
-        {{renderContentModule this}}
-      {{/each}}
-    </main>
-  </body>
-</html>
-`
-
 export class PagesOutputEngine extends OutputEngine {
   async run() {
+    const templateFile = path.join(import.meta.dirname, 'pages.html.hbs')
+    const template = await fs.readFile(templateFile, 'utf8')
     for (const [pageId, pageItems] of Object.entries(this.context.pages)) {
       const outputText = renderHandlebars(template, {
         contentModules: pageItems,
