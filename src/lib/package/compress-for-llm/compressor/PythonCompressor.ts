@@ -22,11 +22,11 @@ const pyminify = async (code: string, options: Pick<PythonCompressor[`options`],
     code,
     options,
   })
-  const pyminifyArgs = options.pyminifyFlags.map(arg => `--${arg}`)
+  const pyminifyArguments = options.pyminifyFlags.map(argument => `--${argument}`)
   const pyminifyExecutable = options.pyminifyExecutableFile ?? await which(`pyminify`)
   const executionResult = await execa({
     input: code,
-  })`${pyminifyExecutable} ${pyminifyArgs} -`
+  })`${pyminifyExecutable} ${pyminifyArguments} -`
   return executionResult.stdout
 }
 
