@@ -127,7 +127,7 @@ export function linkedFileWithSize(inputFile: string, size?: number): Promise<st
 }
 
 export const integer = (inputNumber: number) => {
-  const numberString = Math.trunc(inputNumber).toLocaleString(`en`, {
+  const numberString = Math.trunc(inputNumber).toLocaleString('en', {
     useGrouping: inputNumber >= 10_000,
   })
   return numberStyle(numberString)
@@ -168,7 +168,7 @@ export const ms = (inputMs: number) => {
   const string = prettyMs(inputMs)
   const segment = string.replaceAll(/([\d,.]+)(\s+)?(\w+)/g, (_match, number, _space, unit) => {
     let numberSegment = integer(Number(number))
-    if (number === `0` && unit === `ms` && inputMs > 0 && inputMs < 1) {
+    if (number === '0' && unit === 'ms' && inputMs > 0 && inputMs < 1) {
       numberSegment = `>${numberSegment}`
     }
     return `${numberSegment}${unit}`
@@ -181,15 +181,15 @@ type EscapeFunction = (argument: string, index?: number) => string
 const bashEscape: EscapeFunction = (argument, _index) => {
   const forbiddenChars = /[\s$&\\]/
   if (forbiddenChars.test(argument)) {
-    const hasSingleQuotes = argument.includes(`'`)
+    const hasSingleQuotes = argument.includes('\'')
     if (!hasSingleQuotes) {
       return `'${argument}'`
     }
-    const hasDoubleQuotes = argument.includes(`"`)
+    const hasDoubleQuotes = argument.includes('"')
     if (!hasDoubleQuotes) {
       return `"${argument}"`
     }
-    const innerText = argument.replaceAll(`'`, `'"'"'`)
+    const innerText = argument.replaceAll('\'', '\'"\'"\'')
     return `'${innerText}'`
   }
   return argument
@@ -197,9 +197,9 @@ const bashEscape: EscapeFunction = (argument, _index) => {
 const powershellEscape: EscapeFunction = (argument, index) => {
   const forbiddenChars = /\s/g
   if (index === 0) {
-    return argument.replaceAll(forbiddenChars, `\`$&`).replaceAll(`\``, `\`\``)
+    return argument.replaceAll(forbiddenChars, '`$&').replaceAll('`', '``')
   }
-  return bashEscape(argument, index).replaceAll(`\``, `\`\``)
+  return bashEscape(argument, index).replaceAll('`', '``')
 }
 
 export const command = (inputCommand: Arrayable<string>, replacer: (EscapeFunction | undefined) = powershellEscape) => {
@@ -209,12 +209,12 @@ export const command = (inputCommand: Arrayable<string>, replacer: (EscapeFuncti
     if (index === 0) {
       return fileStyle(path.cleanPath(text))
     }
-    if (text.startsWith(`-`)) {
+    if (text.startsWith('-')) {
       return chalk.ansi256(8)(text)
     }
     return text
   })
-  return segments.join(` `)
+  return segments.join(' ')
 }
 
 export const make = (staticStrings: TemplateStringsArray, ...values: Array<unknown>) => {
@@ -223,17 +223,17 @@ export const make = (staticStrings: TemplateStringsArray, ...values: Array<unkno
       return result + staticString
     }
     let value = values[index]
-    if (typeof value === `number`) {
+    if (typeof value === 'number') {
       if (Number.isInteger(value)) {
         value = integer(value)
       } else {
         value = numeric(value)
       }
-    } else if (typeof value === `string`) {
+    } else if (typeof value === 'string') {
       value = string(value)
     } else {
       value = String(value)
     }
     return result + staticString + value
-  }, ``)
+  }, '')
 }

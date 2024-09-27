@@ -14,15 +14,15 @@ export class WikimediaExtractor<ExtraOptionsGeneric = {}> extends DownloadExtrac
   async init() {
     await super.init()
     const text = this.response.body
-    const textFile = path.join(this.context.tempFolder, `download`, `mediawiki`, `${this.context.id}.txt`)
+    const textFile = path.join(this.context.tempFolder, 'download', 'mediawiki', `${this.context.id}.txt`)
     await fs.outputFile(textFile, text)
     const $ = this.context.$({
       // @ts-expect-error
-      stdout: `pipe`,
+      stdout: 'pipe',
     })
     // @ts-expect-error
     const execa = await $({
-      stdout: `pipe`,
+      stdout: 'pipe',
     })`${this.context.options.pandocPath} --from mediawiki --to markdown --standalone --embed-resources --wrap none --no-highlight ${textFile}`
     this.content = execa.stdout
   }

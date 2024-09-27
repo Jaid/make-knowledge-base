@@ -22,7 +22,7 @@ export abstract class OutputEngine {
     this.context = context
   }
   async outputFile(outputText: string, outputFileStem: string) {
-    const outputFile = path.join(this.context.outputFolder, `dist`, `${outputFileStem}.${this.context.options.outputFileExtension ?? `html`}`)
+    const outputFile = path.join(this.context.outputFolder, 'dist', `${outputFileStem}.${this.context.options.outputFileExtension ?? 'html'}`)
     await fs.outputFile(outputFile, outputText)
     this.context.log(`→ ${await ansi.linkedFileWithSize(outputFile)}`)
   }

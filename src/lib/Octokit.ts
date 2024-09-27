@@ -4,15 +4,15 @@ import type {AsyncReturnType} from 'type-fest'
 import {RequestError} from '@octokit/request-error'
 import {Octokit as BaseOctokit} from '@octokit/rest'
 
-export type RepoData = (ReturnType<typeof Octokit.prototype.repos.get> extends Promise<infer U> ? U : never)[`data`]
-export type GistData = (ReturnType<typeof Octokit.prototype.gists.get> extends Promise<infer U> ? U : never)[`data`]
+export type RepoData = (ReturnType<typeof Octokit.prototype.repos.get> extends Promise<infer U> ? U : never)['data']
+export type GistData = (ReturnType<typeof Octokit.prototype.gists.get> extends Promise<infer U> ? U : never)['data']
 
 export class Octokit extends BaseOctokit {
   authOwner: string
   hasToken: boolean
   constructor(octokitOptions: ConstructorParameters<typeof Octokit>[0] = {}, token?: string) {
     const options = {
-      timeZone: process.env.TZ ?? `UTC`,
+      timeZone: process.env.TZ ?? 'UTC',
       ...octokitOptions,
     }
     if (!token && process.env.GITHUB_TOKEN) {
@@ -30,7 +30,7 @@ export class Octokit extends BaseOctokit {
     })
     return gist.data
   }
-  async findReadme(owner: string, repo: string, branch?: string): Promise<AsyncReturnType<typeof Octokit.prototype.repos.getContent>[`data`][number]> {
+  async findReadme(owner: string, repo: string, branch?: string): Promise<AsyncReturnType<typeof Octokit.prototype.repos.getContent>['data'][number]> {
     const getContentOptions: Dict = {
       owner,
       repo,
@@ -40,9 +40,9 @@ export class Octokit extends BaseOctokit {
     }
     const getContentsResult = await this.repos.getContent({
       ...getContentOptions,
-      path: ``,
+      path: '',
     })
-    const readmeFile = getContentsResult.data.find(file => file.name.toLowerCase() === `readme.md`) ?? getContentsResult.data.find(file => file.name.toLowerCase() === `readme.txt`) ?? getContentsResult.data.find(file => file.name.toLowerCase() === `readme`)
+    const readmeFile = getContentsResult.data.find(file => file.name.toLowerCase() === 'readme.md') ?? getContentsResult.data.find(file => file.name.toLowerCase() === 'readme.txt') ?? getContentsResult.data.find(file => file.name.toLowerCase() === 'readme')
     if (!readmeFile) {
       throw new Error(`No readme file found in the repository ${owner}/${repo}`)
     }
@@ -86,7 +86,7 @@ export class Octokit extends BaseOctokit {
       return remoteRepoNames
     }
     if (!githubUser) {
-      throw new Error(`No GitHub user specified – Either specify $GITHUB_USER or $GITHUB_TOKEN or --github-user`)
+      throw new Error('No GitHub user specified – Either specify $GITHUB_USER or $GITHUB_TOKEN or --github-user')
     }
     const remoteRepoNames = await this.paginate(this.repos.listForUser, {
       per_page: 100,

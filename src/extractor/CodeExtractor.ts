@@ -22,21 +22,21 @@ const formatters: Dict<(input: string) => Promisable<string>> = {
     return toCleanYaml(object)
   },
   ts: input => {
-    const codeCompressed = input.replaceAll(/^\s*[\n\r]/gm, ``)
+    const codeCompressed = input.replaceAll(/^\s*[\n\r]/gm, '')
     const codeFormatted = prettier.format(codeCompressed, {
-      parser: `typescript`,
-      arrowParens: `avoid`,
+      parser: 'typescript',
+      arrowParens: 'avoid',
       bracketSameLine: true,
       bracketSpacing: false,
-      embeddedLanguageFormatting: `off`,
+      embeddedLanguageFormatting: 'off',
       jsxSingleQuote: true,
       printWidth: 1_000_000,
-      quoteProps: `as-needed`,
+      quoteProps: 'as-needed',
       requirePragma: false,
       semi: false,
       singleQuote: true,
       tabWidth: 2,
-      trailingComma: `none`,
+      trailingComma: 'none',
     })
     // const codeCleaned = minifyText(codeFormatted)
     return codeFormatted
@@ -60,7 +60,7 @@ export class CodeExtractor<ExtraOptionsGeneric = {}> extends DownloadExtractor<E
     }
     const isJsRegex = /^[cm]?[jt]sx?$/
     if (isJsRegex.test(extension)) {
-      return `ts`
+      return 'ts'
     }
     return extension
   }

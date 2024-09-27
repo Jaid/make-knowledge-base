@@ -14,7 +14,7 @@ export class MarkdownFromHtmlExtractor<ExtraOptionsGeneric = {}> extends HtmlExt
     await super.init()
     const html = this.content
     const turndownService = new TurndownService({
-      codeBlockStyle: `fenced`,
+      codeBlockStyle: 'fenced',
     })
     this.content = turndownService.turndown(html)
   }

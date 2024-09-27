@@ -7,8 +7,8 @@ import which from 'which'
 
 import TextCompressor from 'lib/package/compress-for-llm/compressor/TextCompressor.js'
 
-export const formatPython = async (code: string, options: Pick<PythonCompressor[`options`], `yapfConfig` | `yapfExecutableFile`>) => {
-  const yapfExecutable = options.yapfExecutableFile ?? await which(`yapf`)
+export const formatPython = async (code: string, options: Pick<PythonCompressor['options'], 'yapfConfig' | 'yapfExecutableFile'>) => {
+  const yapfExecutable = options.yapfExecutableFile ?? await which('yapf')
   const style = options.yapfConfig
   const executionResult = await execa({
     input: code,
@@ -17,20 +17,20 @@ export const formatPython = async (code: string, options: Pick<PythonCompressor[
   return executionResult.stdout
 }
 
-const pyminify = async (code: string, options: Pick<PythonCompressor[`options`], `pyminifyExecutableFile` | `pyminifyFlags`>) => {
+const pyminify = async (code: string, options: Pick<PythonCompressor['options'], 'pyminifyExecutableFile' | 'pyminifyFlags'>) => {
   console.dir({
     code,
     options,
   })
   const pyminifyArguments = options.pyminifyFlags.map(argument => `--${argument}`)
-  const pyminifyExecutable = options.pyminifyExecutableFile ?? await which(`pyminify`)
+  const pyminifyExecutable = options.pyminifyExecutableFile ?? await which('pyminify')
   const executionResult = await execa({
     input: code,
   })`${pyminifyExecutable} ${pyminifyArguments} -`
   return executionResult.stdout
 }
 
-export const minifyPython = async (code: string, options: PythonCompressor[`options`]) => {
+export const minifyPython = async (code: string, options: PythonCompressor['options']) => {
   code = await pyminify(code, options)
   code = await formatPython(code, options)
   return code
@@ -45,14 +45,14 @@ type Options = {
 
 const defaultOptions = {
   pyminifyFlags: [
-    `remove-literal-statements`,
-    `no-remove-annotations`,
-    `no-rename-locals`,
-    `no-hoist-literals`,
-    `no-convert-posargs-to-args`,
-    `remove-asserts`,
-    `remove-debug`,
-    `no-preserve-shebang`,
+    'remove-literal-statements',
+    'no-remove-annotations',
+    'no-rename-locals',
+    'no-hoist-literals',
+    'no-convert-posargs-to-args',
+    'remove-asserts',
+    'remove-debug',
+    'no-preserve-shebang',
   ],
   yapfConfig: {
     column_limit: 1_000_000,

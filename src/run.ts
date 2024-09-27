@@ -87,10 +87,10 @@ type TreeNode = {
 export default async function run(arguments_: ArgsMerged) {
   for (const projectId of arguments_.projectIds) {
     const projectFolder = path.join(arguments_.projectsFolder, projectId)
-    const outputFolder = path.join(projectFolder, `out`)
-    const contentFolder = path.join(outputFolder, `content`)
-    const cacheIndexFile = path.join(outputFolder, `cache.yml`)
-    const entriesScriptFile = path.join(projectFolder, `sources.ts`)
+    const outputFolder = path.join(projectFolder, 'out')
+    const contentFolder = path.join(outputFolder, 'content')
+    const cacheIndexFile = path.join(outputFolder, 'cache.yml')
+    const entriesScriptFile = path.join(projectFolder, 'sources.ts')
     const {default: entries} = await import(pathToFileURL(entriesScriptFile).toString()) as {default: Entries}
     let cacheIndex: Cache = {}
     if (arguments_.useCache && await fs.pathExists(cacheIndexFile)) {
@@ -99,7 +99,7 @@ export default async function run(arguments_: ArgsMerged) {
         cacheIndex = loadedCache
         console.log(`Loaded cache index from ${ansi.linkedFile(cacheIndexFile)}`)
       } catch (error) {
-        console.log(`Failed to load cache index. Proceeding without cache.`)
+        console.log('Failed to load cache index. Proceeding without cache.')
       }
     }
     const contentModulePages: Dict<Array<ContentModule> | undefined> = {}
@@ -108,7 +108,7 @@ export default async function run(arguments_: ArgsMerged) {
       id: string,
       parentNode: TreeNode,
       pathSegments: Array<string>): Promise<void> => {
-      const entryId = id || `(no id)`
+      const entryId = id || '(no id)'
       const node: TreeNode = {
         id: entryId,
         entries: [],
@@ -119,7 +119,7 @@ export default async function run(arguments_: ArgsMerged) {
       if (value.type) {
         console.log(ansi.make`[type ${value.type}] ${entryId}`)
       } else {
-        const extractorName = value.extractor ?? `guess`
+        const extractorName = value.extractor ?? 'guess'
         console.log(ansi.make`[extractor ${extractorName}] ${entryId}`)
       }
       debug(value)
@@ -134,25 +134,25 @@ export default async function run(arguments_: ArgsMerged) {
       if (Array.isArray(guess)) {
         console.log(`↓ [${guess.length}]`)
         for (const guessEntry of guess) {
-          await processEntry(guessEntry, guessEntry.id.toString() || `(no id)`, node, currentPathSegments)
+          await processEntry(guessEntry, guessEntry.id.toString() || '(no id)', node, currentPathSegments)
         }
         return
       }
-      if (typeof guess === `string`) {
+      if (typeof guess === 'string') {
         entry = {
           ...entry,
           extractor: guess,
         }
       } else if (guess !== true) {
-        console.log(`↓`)
-        await processEntry(guess, guess.id.toString() || `(no id)`, node, currentPathSegments)
+        console.log('↓')
+        await processEntry(guess, guess.id.toString() || '(no id)', node, currentPathSegments)
         return
       }
       if (entry.extractor === undefined) {
-        throw new TypeError(`Extractor is not defined`)
+        throw new TypeError('Extractor is not defined')
       }
       const timestamp = epochSeconds()
-      const pageId = value.page ?? ``
+      const pageId = value.page ?? ''
       if (!cacheIndex[pageId]) {
         cacheIndex[pageId] = {}
       }
@@ -178,7 +178,7 @@ export default async function run(arguments_: ArgsMerged) {
         for (const [cmKey, cmData] of Object.entries(cachedContent)) {
           const contentModulePath = path.join(contentFolder, ...currentPathSegments, `${cmKey}.${arguments_.outputFileExtension}`)
           if (await fs.pathExists(contentModulePath)) {
-            const sourceText = await fs.readFile(contentModulePath, `utf8`)
+            const sourceText = await fs.readFile(contentModulePath, 'utf8')
             const ContentModule = contentModules[cmData.type]
             if (!ContentModule) {
               throw new TypeError(`Unknown content module type: ${cmData.type}`)
@@ -222,7 +222,7 @@ export default async function run(arguments_: ArgsMerged) {
               continue
             }
             console.log(ansi.make`+ ${contentModule.sourceText.length} characters from ${contentModule.constructor.name}`)
-            const safePathSegments = currentPathSegments.map(segment => segment.replaceAll(/[^\-.0-9a-z_]/gi, `_`))
+            const safePathSegments = currentPathSegments.map(segment => segment.replaceAll(/[^\-.0-9a-z_]/gi, '_'))
             const baseOutputPath = path.join(contentFolder, ...safePathSegments)
             const fileName = `${entryId}_${contentModule.constructor.name}_${index}.${arguments_.outputFileExtension}`
             const filePath = path.join(baseOutputPath, fileName)
@@ -233,7 +233,7 @@ export default async function run(arguments_: ArgsMerged) {
               type: contentModule.constructor.name.toLowerCase(),
               title: contentModule.title,
             }
-            const page = value.page ?? ``
+            const page = value.page ?? ''
             if (contentModulePages[page] === undefined) {
               contentModulePages[page] = []
             }
@@ -246,14 +246,14 @@ export default async function run(arguments_: ArgsMerged) {
               continue
             }
             console.log(ansi.make`+ ${contentModule.sourceText.length} characters from ${contentModule.constructor.name}`)
-            const safePathSegments = currentPathSegments.map(segment => segment.replaceAll(/[^\-.0-9a-z_]/gi, `_`))
+            const safePathSegments = currentPathSegments.map(segment => segment.replaceAll(/[^\-.0-9a-z_]/gi, '_'))
             const baseOutputPath = path.join(contentFolder, ...safePathSegments)
-            const fileNameId = entry.id ? entry.id.toString() : `no_id`
+            const fileNameId = entry.id ? entry.id.toString() : 'no_id'
             const fileName = `${fileNameId}_${contentModule.constructor.name}.${arguments_.outputFileExtension}`
             const filePath = path.join(baseOutputPath, fileName)
             await fs.outputFile(filePath, contentModule.sourceText)
             debug(`Wrote content module to ${ansi.linkedFile(filePath)}`)
-            const page = value.page ?? ``
+            const page = value.page ?? ''
             if (contentModulePages[page] === undefined) {
               contentModulePages[page] = []
             }
@@ -264,15 +264,15 @@ export default async function run(arguments_: ArgsMerged) {
       }
     }
     for (const [id, value] of Object.entries(entries)) {
-      const pageId = value.page ?? ``
+      const pageId = value.page ?? ''
       if (!treePages[pageId]) {
         treePages[pageId] = {
-          id: pageId || `(no page id)`,
+          id: pageId || '(no page id)',
           entries: [],
           contentModules: [],
         }
       }
-      await processEntry(value, id, treePages[pageId], [pageId || `(no page id)`])
+      await processEntry(value, id, treePages[pageId], [pageId || '(no page id)'])
     }
     const filteredPages = mapObject(contentModulePages, (key, value) => {
       if (value === undefined || value.length === 0) {

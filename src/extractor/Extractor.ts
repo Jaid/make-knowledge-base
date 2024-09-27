@@ -12,19 +12,19 @@ export type Entry<ExtraOptions = {}> = ExtraOptions & {
 
 type ExtractorContext = Context & {
   id: string
-  options: Options[`merged`]
+  options: Options['merged']
 }
 
 export type ContentTypeId = keyof typeof contentTypes
 
 export const contentTypes = {
   html: {
-    title: `HTML`,
-    extension: `html`,
+    title: 'HTML',
+    extension: 'html',
   },
   markdown: {
-    title: `Markdown`,
-    extension: `md`,
+    title: 'Markdown',
+    extension: 'md',
   },
 }
 
@@ -32,7 +32,7 @@ export abstract class Extractor<ExtraOptions = {}> {
   content: string
   context: ExtractorContext
   entry: Entry<ExtraOptions>
-  constructor(entry: Extractor<ExtraOptions>[`entry`], context: Extractor<ExtraOptions>[`context`]) {
+  constructor(entry: Extractor<ExtraOptions>['entry'], context: Extractor<ExtraOptions>['context']) {
     this.entry = entry
     this.context = context
   }

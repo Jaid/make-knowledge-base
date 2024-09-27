@@ -24,18 +24,18 @@ type Options = {
    *   dedent: 'crush'
    * }
    */
-  dedent?: `common` | `crush` | boolean
+  dedent?: 'common' | 'crush' | boolean
 }
 
 const defaultOptions = {
-  dedent: true as Options[`dedent`],
+  dedent: true as Options['dedent'],
 }
 
 /**
  * If every single line (blank lines excluded) starts with the same whitespace, return that whitespace
  */
 export const getGlobalIndentation = (text: string) => {
-  const lines = text.split(`\n`).filter(line => line.trim() !== ``)
+  const lines = text.split('\n').filter(line => line.trim() !== '')
   if (lines.length === 0) {
     return
   }
@@ -59,33 +59,33 @@ export const dedentCommon = (text: string) => {
   if (globalIndent === undefined) {
     return text
   }
-  const lines = text.split(`\n`)
+  const lines = text.split('\n')
   const linesDedented = lines.map(line => {
     if (line.startsWith(globalIndent)) {
       return line.slice(globalIndent.length)
     }
     return line
   })
-  return linesDedented.join(`\n`)
+  return linesDedented.join('\n')
 }
 
-export const minifyText = (text: string, options: TextCompressor[`options`]): string => {
+export const minifyText = (text: string, options: TextCompressor['options']): string => {
   // remove empty lines
-  text = text.replaceAll(/^\s*[\n\r]/gm, ``)
+  text = text.replaceAll(/^\s*[\n\r]/gm, '')
   // replace \r\n with \n
-  text = text.replaceAll(`\r\n`, `\n`)
+  text = text.replaceAll('\r\n', '\n')
   // replace \n\r with \n
-  text = text.replaceAll(`\n\r`, `\n`)
+  text = text.replaceAll('\n\r', '\n')
   // replace \r with \n
-  text = text.replaceAll(`\r`, `\n`)
-  if (options.dedent === true || options.dedent === `common`) {
+  text = text.replaceAll('\r', '\n')
+  if (options.dedent === true || options.dedent === 'common') {
     text = dedentCommon(text)
-  } else if (options.dedent === `crush`) {
+  } else if (options.dedent === 'crush') {
     // strip line starts
-    text = text.replaceAll(/^([^\S\n]+)/gm, ``)
+    text = text.replaceAll(/^([^\S\n]+)/gm, '')
   }
   // strip line ends
-  text = text.replaceAll(/([^\S\n]+)$/gm, ``)
+  text = text.replaceAll(/([^\S\n]+)$/gm, '')
   return text
 }
 
@@ -103,7 +103,7 @@ export default class TextCompressor<ExtraOptions = {}> extends Compressor<ExtraO
 
 if (import.meta.filename.toLowerCase() === process.argv[1].toLowerCase()) {
   const compressor = new TextCompressor({dedent: true})
-  const code = `  a  \n  b\n  c\n`
+  const code = '  a  \n  b\n  c\n'
   const result = await compressor.compress(code)
   console.dir({result})
 }

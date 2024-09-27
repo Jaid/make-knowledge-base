@@ -3,7 +3,7 @@ import type {FirstParameter} from 'more-types'
 import showdown from 'showdown'
 
 type Options = showdown.ConverterOptions & {
-  flavor?: FirstParameter<InstanceType<typeof showdown.Converter>[`setFlavor`]>
+  flavor?: FirstParameter<InstanceType<typeof showdown.Converter>['setFlavor']>
 }
 
 export const markdownToSimpleHtml = (markdownInput: string, showdownOptions?: Options) => {
@@ -17,5 +17,5 @@ export const markdownToSimpleHtml = (markdownInput: string, showdownOptions?: Op
     converter.setFlavor(showdownOptions.flavor)
   }
   const html = converter.makeHtml(markdownInput)
-  return html.replace(/^<p>/, ``).replace(/<\/p>$/, ``)
+  return html.replace(/^<p>/, '').replace(/<\/p>$/, '')
 }

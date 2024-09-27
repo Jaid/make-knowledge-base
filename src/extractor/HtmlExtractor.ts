@@ -25,21 +25,21 @@ export class HtmlExtractor<ExtraOptionsGeneric = {}> extends DownloadExtractor<E
       await super.init()
       if (this.entry.domSelector) {
         if (this.context.options.debug) {
-          const rawHtmlFile = path.join(this.context.tempFolder, `debug`, `${this.context.id}.html`)
+          const rawHtmlFile = path.join(this.context.tempFolder, 'debug', `${this.context.id}.html`)
           this.context.log(`Writing raw HTML to ${rawHtmlFile}`)
           await fs.outputFile(rawHtmlFile, this.content)
         }
         const cheerioPage = cheerio.load(this.content)
-        this.content = cheerioPage(this.entry.domSelector).html() ?? ``
+        this.content = cheerioPage(this.entry.domSelector).html() ?? ''
       }
     } else {
       const headless = this.entry.headless ?? true
       const browser = await puppeteer.launch({
         args: [
-          `--no-sandbox`,
-          `--disable-setuid-sandbox`,
-          `--font-render-hinting=medium`,
-          `--enable-font-antialiasing`,
+          '--no-sandbox',
+          '--disable-setuid-sandbox',
+          '--font-render-hinting=medium',
+          '--enable-font-antialiasing',
         ],
         executablePath: this.context.options.chromeExecutable,
         headless,
@@ -48,10 +48,10 @@ export class HtmlExtractor<ExtraOptionsGeneric = {}> extends DownloadExtractor<E
       for (const [name, value] of Object.entries(this.entry.cookies ?? {})) {
         const cookie = {
           name,
-          path: `/`,
+          path: '/',
           secure: true,
         } as FirstParameter<typeof page.setCookie>
-        if (typeof value === `string`) {
+        if (typeof value === 'string') {
           cookie.value = value
         } else {
           Object.assign(cookie, value)
@@ -59,7 +59,7 @@ export class HtmlExtractor<ExtraOptionsGeneric = {}> extends DownloadExtractor<E
         await page.setCookie(cookie)
       }
       await page.goto(this.entry.url, {
-        waitUntil: `domcontentloaded`,
+        waitUntil: 'domcontentloaded',
       })
       try {
         await page.waitForNetworkIdle({

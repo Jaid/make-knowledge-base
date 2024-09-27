@@ -7,7 +7,7 @@ import TextCompressor from 'lib/package/compress-for-llm/compressor/TextCompress
 type HtmlMinifierConfig = NonNullable<SecondParameter<typeof minify>>
 
 export type Options = {
-  minifierConfig: HtmlMinifierConfig | `basic` | `strong`
+  minifierConfig: HtmlMinifierConfig | 'basic' | 'strong'
 }
 
 const basicConfig = {
@@ -18,7 +18,7 @@ const basicConfig = {
   continueOnParseError: true,
   decodeEntities: true,
   keepClosingSlash: true,
-  quoteCharacter: `'`,
+  quoteCharacter: '\'',
   removeComments: true,
   removeRedundantAttributes: true,
   sortAttributes: true,
@@ -35,13 +35,13 @@ const strongConfig = {
   collapseBooleanAttributes: true,
 } as HtmlMinifierConfig
 const defaultOptions: Options = {
-  minifierConfig: `strong`,
+  minifierConfig: 'strong',
 }
 
-export const minifyHtml = (html: string, options: HtmlCompressor[`options`]) => {
+export const minifyHtml = (html: string, options: HtmlCompressor['options']) => {
   let config = options.minifierConfig
-  if (typeof config === `string`) {
-    if (config === `strong`) {
+  if (typeof config === 'string') {
+    if (config === 'strong') {
       config = strongConfig
     } else {
       config = basicConfig

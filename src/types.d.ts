@@ -5,7 +5,7 @@ import type {Promisable, ValueOf} from 'type-fest'
 
 type ExtractorFunctionContext = Context & {
   id: string
-  options: Options[`merged`]
+  options: Options['merged']
 }
 
-export type ExtractorFunction = (entry: ValueOf<Options[`parameter`][`entries`]>, context: ExtractorFunctionContext) => Promisable<string>
+export type ExtractorFunction = (entry: ValueOf<Options['parameter']['entries']>, context: ExtractorFunctionContext) => Promisable<string>

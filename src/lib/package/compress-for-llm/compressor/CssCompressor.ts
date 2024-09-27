@@ -11,11 +11,11 @@ export type Options = {
 
 const defaultOptions: Options = {
   cssnanoConfig: {
-    preset: `default`,
+    preset: 'default',
   },
 }
 
-export const minifyCss = async (css: string, options: CssCompressor[`options`]) => {
+export const minifyCss = async (css: string, options: CssCompressor['options']) => {
   const processor = postcss([cssnano(options.cssnanoConfig)])
   const result = await processor.process(css, {
     from: undefined,

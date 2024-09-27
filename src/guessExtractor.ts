@@ -20,9 +20,9 @@ const defaultGlobbyOptions = {
 const repoTargetFromStringTarget = (target: string): {branch?: string
   owner: string
   repo: string} => {
-  const [owner, repo] = target.split(`/`)
-  if (repo.includes(`/`)) {
-    const [actualRepo, branch] = repo.split(`/`)
+  const [owner, repo] = target.split('/')
+  if (repo.includes('/')) {
+    const [actualRepo, branch] = repo.split('/')
     return {
       owner,
       repo: actualRepo,
@@ -37,32 +37,32 @@ const repoTargetFromStringTarget = (target: string): {branch?: string
 
 type GuessResult = Array<Entry> | Entry | keyof typeof extractors | boolean | undefined
 type EntryPreset = (entry: Entry) => Promisable<GuessResult>
-type EntryPresetsKey = NonNullable<AnonymousEntry[`type`]>
+type EntryPresetsKey = NonNullable<AnonymousEntry['type']>
 
 export const entryPresets: Record<EntryPresetsKey, EntryPreset> = {
   rentry: entry => {
     const target = entry.target as string
     return {
-      ...lodash.omit(entry, `type`),
-      extractor: `htmlFromMarkdown`,
+      ...lodash.omit(entry, 'type'),
+      extractor: 'htmlFromMarkdown',
       url: `https://rentry.org/${target}/raw`,
     } as unknown as Entry
   },
   civitai_article: entry => {
     const target = entry.target as string
     return {
-      ...lodash.omit(entry, `type`),
-      extractor: `html`,
+      ...lodash.omit(entry, 'type'),
+      extractor: 'html',
       url: `https://civitai.com/articles/${target}`,
-      domSelector: `article`,
+      domSelector: 'article',
       puppeteer: true,
     } as unknown as Entry
   },
   civitai_model_description: entry => {
     const target = entry.target as string
     return {
-      ...lodash.omit(entry, `type`),
-      extractor: `html`,
+      ...lodash.omit(entry, 'type'),
+      extractor: 'html',
       url: `https://civitai.com/api/v1/models/${target}`,
     } as unknown as Entry
   },
@@ -74,9 +74,9 @@ export const entryPresets: Record<EntryPresetsKey, EntryPreset> = {
     }
     const target = entry.target as GitHubWikiArticleTarget
     return {
-      ...lodash.omit(entry, `type`),
+      ...lodash.omit(entry, 'type'),
       url: `https://github.com/${target.owner}/${target.repo}/wiki/${target.article}.md`,
-      extractor: `htmlFromMarkdown`,
+      extractor: 'htmlFromMarkdown',
       title: `Wiki article “${target.article}” from GitHub repository ${target.owner}/${target.repo}`,
     } as unknown as Entry
   },
@@ -86,13 +86,13 @@ export const entryPresets: Record<EntryPresetsKey, EntryPreset> = {
       owner: string
       repo: string
     }
-    const target = (typeof entry.target === `string` ? repoTargetFromStringTarget(entry.target) : entry.target) as GitHubReadmeTarget
+    const target = (typeof entry.target === 'string' ? repoTargetFromStringTarget(entry.target) : entry.target) as GitHubReadmeTarget
     const octokit = new Octokit
     const readmeFile = await octokit.findReadme(target.owner, target.repo, target.branch)
     return {
       title: `github.com/${target.owner}/${target.repo}/readme.md`,
-      ...lodash.omit(entry, `type`),
-      extractor: `htmlFromMarkdown`,
+      ...lodash.omit(entry, 'type'),
+      extractor: 'htmlFromMarkdown',
       url: readmeFile.download_url as string,
     } as unknown as Entry
   },
@@ -103,20 +103,20 @@ export const entryPresets: Record<EntryPresetsKey, EntryPreset> = {
       repo: string
       titlePrefix?: string
     }
-    const target = (typeof entry.target === `string` ? repoTargetFromStringTarget(entry.target) : entry.target) as GitHubMarkdownTarget
+    const target = (typeof entry.target === 'string' ? repoTargetFromStringTarget(entry.target) : entry.target) as GitHubMarkdownTarget
     const titlePrefix = target.titlePrefix ?? `github.com/${target.owner}/${target.repo}/`
     return {
       ...entry,
-      extractor: `htmlFromMarkdown`,
-      type: `repo_glob`,
+      extractor: 'htmlFromMarkdown',
+      type: 'repo_glob',
       target: {
         ...target,
         pattern: [
-          `**/*.md`,
-          `!**/node_modules/**`,
-          `!**/CONTRIBUTING.md`,
-          `!**/LICENSE.md`,
-          `!**/SECURITY.md`,
+          '**/*.md',
+          '!**/node_modules/**',
+          '!**/CONTRIBUTING.md',
+          '!**/LICENSE.md',
+          '!**/SECURITY.md',
         ],
         globbyOptions: defaultGlobbyOptions,
         titlePrefix,
@@ -135,23 +135,23 @@ export const entryPresets: Record<EntryPresetsKey, EntryPreset> = {
     const target = entry.target as GitHubGlobTarget
     const repoId = target.branch ? `${target.owner}_${target.repo}_${target.branch}` : `${target.owner}_${target.repo}`
     const temporaryFolder = await tempy.temporaryDirectory({prefix: `github-repo-${repoId}-`})
-    const branch = target.branch ?? `master`
+    const branch = target.branch ?? 'master'
     const tarGzUrl = `https://github.com/${target.owner}/${target.repo}/archive/${branch}.tar.gz`
     await pipeline(got.stream(tarGzUrl), createGunzip(), tarFs.extract(temporaryFolder, {
       strict: false,
       readable: true,
       writable: true,
       ignore: (_, header) => {
-        if (header.type === `file`) {
+        if (header.type === 'file') {
           return false
         }
-        if (header.type === `directory`) {
+        if (header.type === 'directory') {
           return false
         }
         return true
       },
     }))
-    const extractedFolders = await globby(`*`, {
+    const extractedFolders = await globby('*', {
       onlyDirectories: true,
       cwd: temporaryFolder,
     })
@@ -163,7 +163,7 @@ export const entryPresets: Record<EntryPresetsKey, EntryPreset> = {
     }
     const newFolder = path.join(temporaryFolder, extractedFolders[0])
     return {
-      extractor: `code`,
+      extractor: 'code',
       ...entry,
       target: {
         ...target,
@@ -171,7 +171,7 @@ export const entryPresets: Record<EntryPresetsKey, EntryPreset> = {
         titlePrefix: target.titlePrefix ?? `github.com/${target.owner}/${target.repo}/`,
         folder: newFolder,
       },
-      type: `glob`,
+      type: 'glob',
     }
   },
   glob: async entry => {
@@ -188,13 +188,13 @@ export const entryPresets: Record<EntryPresetsKey, EntryPreset> = {
     if (!target.globbyOptions) {
       target.globbyOptions = defaultGlobbyOptions
     }
-    if (typeof target.globbyOptions.cwd !== `string`) {
+    if (typeof target.globbyOptions.cwd !== 'string') {
       target.globbyOptions = {
         ...target.globbyOptions,
         cwd: target.folder,
       }
-      if (typeof target.globbyOptions.cwd !== `string`) {
-        throw new TypeError(`target.globbyOptions.cwd or target.folder must be a string`)
+      if (typeof target.globbyOptions.cwd !== 'string') {
+        throw new TypeError('target.globbyOptions.cwd or target.folder must be a string')
       }
     }
     const filePartials = await globby(target.pattern, {
@@ -203,19 +203,19 @@ export const entryPresets: Record<EntryPresetsKey, EntryPreset> = {
     })
     for (const [index, filePartial] of filePartials.entries()) {
       const file = path.join(target.globbyOptions.cwd, filePartial)
-      const title = `${target.titlePrefix ?? ``}${filePartial}`
+      const title = `${target.titlePrefix ?? ''}${filePartial}`
       resultEntries.push({
         id: `${entry.id}_${index}_${path.stem(file)}`,
         title: entry.title ? `${entry.title} - ${title}` : title,
         url: file,
-        ...lodash.pick(entry, [`extractor`, `page`]),
+        ...lodash.pick(entry, ['extractor', 'page']),
       })
     }
     return resultEntries
   },
   // BLOCKEDBY https://github.com/orgs/community/discussions/102891#discussioncomment-8340473
   github_wiki: async entry => {
-    const [owner, repo] = String(entry.target).split(`/`)
+    const [owner, repo] = String(entry.target).split('/')
     // const octokit = new Octokit()
     // console.dir(allPages)
     // return {
@@ -227,8 +227,8 @@ export const entryPresets: Record<EntryPresetsKey, EntryPreset> = {
   reddit_comments: async entry => {
     const target = entry.target as string
     return {
-      ...lodash.omit(entry, `type`),
-      extractor: `redditThread`,
+      ...lodash.omit(entry, 'type'),
+      extractor: 'redditThread',
       url: target,
     } as unknown as Entry
   },
