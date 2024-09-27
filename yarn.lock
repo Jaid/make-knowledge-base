@@ -924,7 +924,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/node@npm:*, @types/node@npm:^22.7.3":
+"@types/node@npm:*":
   version: 22.7.3
   resolution: "@types/node@npm:22.7.3"
   dependencies:
@@ -937,6 +937,15 @@ __metadata:
   version: 17.0.45
   resolution: "@types/node@npm:17.0.45"
   checksum: 10/b45fff7270b5e81be19ef91a66b764a8b21473a97a8d211218a52e3426b79ad48f371819ab9153370756b33ba284e5c875463de4d2cf48a472e9098d7f09e8a2
+  languageName: node
+  linkType: hard
+
+"@types/node@npm:^22.7.4":
+  version: 22.7.4
+  resolution: "@types/node@npm:22.7.4"
+  dependencies:
+    undici-types: "npm:~6.19.2"
+  checksum: 10/19ddab80c4eba2253c855ed67c9bbc47417183049d01e59010a738bd80d47338bab79fd1f44ae51516bd63a1db4bf21ddb38b16bf6401a2e93252068ec52e88b
   languageName: node
   linkType: hard
 
@@ -2560,9 +2569,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"eslint-config-jaid@npm:^12.1.1":
-  version: 12.1.1
-  resolution: "eslint-config-jaid@npm:12.1.1"
+"eslint-config-jaid@npm:^13.0.0":
+  version: 13.0.0
+  resolution: "eslint-config-jaid@npm:13.0.0"
   dependencies:
     "@stylistic/eslint-plugin": "npm:^2.8.0"
     "@typescript-eslint/eslint-plugin": "npm:8.7.0"
@@ -2582,7 +2591,7 @@ __metadata:
     forward-slash-path: "npm:^0.3.0"
     jsonc-eslint-parser: "npm:^2.4.0"
     yaml-eslint-parser: "npm:^1.2.3"
-  checksum: 10/3f67bf3d811aaee59a5510b3d49a164a26b68a3cb230232ef2148ab3da96b47c175258982f3adeb30bc0166fae25b788d6f3fe0961b058714c4613705cad7bb1
+  checksum: 10/b80de138b2c90584392e220ccdad105161c16e6be5c7866b2e0c28b56949a96ac3864961fcd6e3bb0cc72ed247c14dfd1ad087ddc52a4a9d007e4afbfab74fab
   languageName: node
   linkType: hard
 
@@ -4431,13 +4440,13 @@ __metadata:
     "@types/fs-extra": "npm:^11"
     "@types/html-minifier": "npm:^4"
     "@types/lodash-es": "npm:^4"
-    "@types/node": "npm:^22.7.3"
+    "@types/node": "npm:^22.7.4"
     "@types/showdown": "npm:^2"
     chalk: "npm:^5.3.0"
     cssnano: "npm:^7.0.6"
     debug: "npm:^4.3.7"
     dedent: "npm:^1.5.3"
-    eslint-config-jaid: "npm:^12.1.1"
+    eslint-config-jaid: "npm:^13.0.0"
     execa: "npm:^9.4.0"
     forward-slash-path: "npm:^0.3.0"
     fs-extra: "npm:^11.2.0"
