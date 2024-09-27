@@ -2,7 +2,7 @@ import type {Dict} from 'more-types'
 import type {ArgsMerged} from 'src/command/main.js'
 import type {ContentModule} from 'src/contentModule/ContentModule.js'
 
-import {pathToFileURL} from 'url'
+import {pathToFileURL} from 'node:url'
 
 import epochSeconds from 'epoch-seconds'
 import * as path from 'forward-slash-path'
@@ -91,7 +91,7 @@ export default async function run(arguments_: ArgsMerged) {
     const contentFolder = path.join(outputFolder, `content`)
     const cacheIndexFile = path.join(outputFolder, `cache.yml`)
     const entriesScriptFile = path.join(projectFolder, `sources.ts`)
-    const {default: entries} = await import(pathToFileURL(entriesScriptFile).toString()) as { default: Entries }
+    const {default: entries} = await import(pathToFileURL(entriesScriptFile).toString()) as {default: Entries}
     let cacheIndex: Cache = {}
     if (arguments_.useCache && await fs.pathExists(cacheIndexFile)) {
       try {

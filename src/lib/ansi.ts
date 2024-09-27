@@ -1,7 +1,7 @@
 import type {SecondParameter} from 'more-types'
 import type {Arrayable} from 'type-fest'
 
-import {pathToFileURL} from 'url'
+import {pathToFileURL} from 'node:url'
 
 import chalk from 'chalk'
 import * as path from 'forward-slash-path'

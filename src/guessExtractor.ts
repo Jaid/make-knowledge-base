@@ -2,7 +2,7 @@ import type {AnonymousEntry, Entry, extractors} from 'src/cli.js'
 import type {Promisable} from 'type-fest'
 
 import {pipeline} from 'node:stream/promises'
-import {createGunzip} from 'zlib'
+import {createGunzip} from 'node:zlib'
 
 import * as path from 'forward-slash-path'
 import {globby} from 'globby'

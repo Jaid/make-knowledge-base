@@ -6,3 +6,7 @@ test(`run`, async () => {
   const cli = makeCli()
   await cli()
 })
+test(`show help`, async () => {
+  const cli = makeCli()
+  await cli(`--help`)
+})
