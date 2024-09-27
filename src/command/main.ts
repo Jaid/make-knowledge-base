@@ -1,7 +1,8 @@
-import type {GlobalArgs} from 'src/cli.js'
+import type {GlobalArgs} from 'src/makeCli.js'
 import type {Simplify} from 'type-fest'
 import type {ArgumentsCamelCase, Argv, CommandBuilder} from 'yargs'
 
+import debug from 'lib/debug.js'
 import run from 'src/run.js'
 
 export type Args = (typeof builder) extends CommandBuilder<any, infer U> ? ArgumentsCamelCase<U> : never
@@ -69,6 +70,7 @@ export const builder = (argv: Argv) => {
     })
 }
 
-export const handler = async (arguments_: ArgsMerged) => {
-  await run(arguments_)
+export const handler = async (args: ArgsMerged) => {
+  debug('Args: %o', args)
+  await run(args)
 }
