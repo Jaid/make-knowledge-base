@@ -1,7 +1,6 @@
-import type {Context as ParentContext, RunFunction} from 'lib/context.js'
-import type {Dict, FirstParameter} from 'more-types'
-import type {Options} from 'src/cli.js'
+import type {Dict} from 'more-types'
 import type {ContentModule} from 'src/contentModule/ContentModule.js'
+import type {RunSingleOptions} from 'src/run.js'
 
 import * as path from 'forward-slash-path'
 import fs from 'fs-extra'
@@ -9,8 +8,8 @@ import fs from 'fs-extra'
 import * as ansi from 'lib/ansi.js'
 import HtmlCompressor from 'lib/package/compress-for-llm/compressor/HtmlCompressor.js'
 
-type Context = ParentContext & {
-  options: FirstParameter<RunFunction<Options>>
+type Context = {
+  options: RunSingleOptions
   outputFolder: string
   pages: Dict<Array<ContentModule>>
   projectId: string

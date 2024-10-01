@@ -1,9 +1,8 @@
-import type {Context, RunFunction} from 'lib/context.ts'
 import type {SecondParameter} from 'more-types'
 import type {Options} from 'src/cli.ts'
 import type {Promisable, ValueOf} from 'type-fest'
 
-type ExtractorFunctionContext = Context & {
+type ExtractorFunctionContext = {
   id: string
   options: Options['merged']
 }

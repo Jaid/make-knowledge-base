@@ -1,4 +1,4 @@
-import type {AnonymousEntry, Entry, extractors} from 'src/cli.js'
+import type {AnonymousEntry, Entry, extractors} from 'src/run.js'
 import type {Promisable} from 'type-fest'
 
 import {pipeline} from 'node:stream/promises'

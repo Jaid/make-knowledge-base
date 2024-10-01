@@ -10,7 +10,7 @@ type Options = {
 export default class JsonCompressor<ExtraOptions = {}> extends Compressor<ExtraOptions & Options> {
   compress(code: string): string {
     try {
-      const json = JSON5.parse(code)
+      const json = JSON5.parse<unknown>(code)
       if (this.options.outputFormat === 'json5') {
         return JSON5.stringify(json)
       }

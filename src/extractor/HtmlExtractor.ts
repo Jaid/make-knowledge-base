@@ -3,9 +3,9 @@ import type {FirstParameter} from 'more-types'
 import * as cheerio from 'cheerio'
 import puppeteer from 'puppeteer-core'
 
+import debug from 'lib/debug.js'
 import {HtmlContentModule} from 'src/contentModule/HtmlContentModule.js'
 import {DownloadExtractor} from 'src/extractor/DownloadExtractor.js'
-import debug from 'lib/debug.js'
 
 export type ExtraOptions = {
   domSelector?: string
