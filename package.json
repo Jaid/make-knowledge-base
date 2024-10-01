@@ -6,7 +6,7 @@
     "build": "printf 'No %s script specified\\n' $npm_lifecycle_event >&2",
     "env": "wireit",
     "start": "printf 'No %s script specified\\n' $npm_lifecycle_event >&2",
-    "test": "printf 'No %s script specified\\n' $npm_lifecycle_event >&2"
+    "test": "tsx test/test.ts"
   },
   "wireit": {
     "env": {
@@ -52,7 +52,7 @@
     "tsconfig-jaid-node": "^8.1.0",
     "tsx": "^4.19.1",
     "type-fest": "^4.26.1",
-    "typescript": "^5.6.2",
+    "typescript": "5.5",
     "wireit": "^0.14.9"
   }
 }
