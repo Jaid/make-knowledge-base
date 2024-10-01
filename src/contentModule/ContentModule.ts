@@ -9,10 +9,10 @@ export abstract class ContentModule {
     this.sourceText = sourceText
     this.title = title
   }
+  abstract asHtml(): string
   getFileExtension() {
     return 'txt'
   }
-  abstract asHtml(): string
   getTitle() {
     return this.entry.title ?? this.title
   }
