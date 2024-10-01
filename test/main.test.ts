@@ -11,8 +11,8 @@ test('run', async () => {
   await cli([
     '--projects-folder',
     `${thisFolder}/fixture/projects`,
-    '--use-cache',
-    'false',
+    // '--use-cache',
+    // 'false',
     '--debug',
     '--output-mode',
     'none',
