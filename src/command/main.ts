@@ -1,12 +1,13 @@
+import type {YargsArgs} from 'lib/YargsArgs.js'
 import type {GlobalArgs} from 'src/makeCli.js'
-import type {Simplify} from 'type-fest'
-import type {ArgumentsCamelCase, Argv, CommandBuilder} from 'yargs'
+import type {Merge} from 'type-fest'
+import type {Argv} from 'yargs'
 
 import debug from 'lib/debug.js'
 import run from 'src/run.js'
 
-export type Args = (typeof builder) extends CommandBuilder<any, infer U> ? ArgumentsCamelCase<U> : never
-export type ArgsMerged = Simplify<GlobalArgs & Args>
+export type Args = YargsArgs<typeof builder>
+export type ArgsMerged = Merge<GlobalArgs, Args>
 
 export const command = '$0 [projectIds...]'
 export const description = 'Compiles source entries into a knowledge base'

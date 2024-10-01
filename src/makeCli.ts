@@ -1,11 +1,11 @@
+import type {YargsArgs} from 'lib/YargsArgs.js'
 import type {FirstParameter} from 'more-types'
-import type {InferredOptionTypes} from 'yargs'
 
 import {makeCli} from 'zeug'
 
 import * as mainCommand from 'src/command/main.js'
 
-export type GlobalArgs = InferredOptionTypes<typeof globalOptions>
+export type GlobalArgs = YargsArgs<typeof globalOptions>
 const globalOptions = {
   verbose: {
     type: 'boolean',
@@ -17,7 +17,7 @@ const globalOptions = {
     default: false,
     description: 'Output additional debug information to file system',
   },
-} as const
+}
 export default (additionalOptions: FirstParameter<typeof makeCli> = {}) => {
   return makeCli({
     command: mainCommand,

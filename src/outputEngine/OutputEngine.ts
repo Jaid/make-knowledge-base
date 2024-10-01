@@ -6,6 +6,7 @@ import * as path from 'forward-slash-path'
 import fs from 'fs-extra'
 
 import * as ansi from 'lib/ansi.js'
+import debug from 'lib/debug.js'
 import HtmlCompressor from 'lib/package/compress-for-llm/compressor/HtmlCompressor.js'
 
 type Context = {
@@ -23,7 +24,7 @@ export abstract class OutputEngine {
   async outputFile(outputText: string, outputFileStem: string) {
     const outputFile = path.join(this.context.outputFolder, 'dist', `${outputFileStem}.${this.context.options.outputFileExtension ?? 'html'}`)
     await fs.outputFile(outputFile, outputText)
-    this.context.log(`→ ${await ansi.linkedFileWithSize(outputFile)}`)
+    debug(`→ ${await ansi.linkedFileWithSize(outputFile)}`)
   }
   async outputHtmlFile(outputText: string, outputFileStem: string) {
     let text = outputText

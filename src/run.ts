@@ -1,6 +1,7 @@
 import type {Dict} from 'more-types'
 import type {ArgsMerged} from 'src/command/main.js'
 import type {ContentModule} from 'src/contentModule/ContentModule.js'
+import type {Simplify} from 'type-fest'
 
 import {pathToFileURL} from 'node:url'
 
@@ -85,11 +86,11 @@ type TreeNode = {
   id: string
 }
 
-export type RunSingleOptions = Omit<ArgsMerged, 'projectIds' | 'projectsFolder'> & {
+export type RunSingleOptions = Simplify<Omit<ArgsMerged, 'projectIds' | 'projectsFolder'> & {
   outputFolder: string
   projectFolder: string
   projectId: string
-}
+}>
 
 const runSingle = async (args: RunSingleOptions) => {
   debug('Args: %O', args)
