@@ -8,8 +8,4 @@ export class MarkdownExtractor<ExtraOptionsGeneric = {}> extends DownloadExtract
   getContentModule() {
     return new MarkdownContentModule(this.entry, this.content)
   }
-  async init() {
-    await super.init()
-    this.content = this.response.body
-  }
 }

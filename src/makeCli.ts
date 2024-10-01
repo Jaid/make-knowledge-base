@@ -22,6 +22,7 @@ export default (additionalOptions: FirstParameter<typeof makeCli> = {}) => {
   return makeCli({
     command: mainCommand,
     strict: true,
+    options: globalOptions,
     ...additionalOptions,
   })
 }

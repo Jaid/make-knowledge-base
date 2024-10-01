@@ -13,6 +13,7 @@ import hashObject from 'object-hash'
 import readFileYaml from 'read-file-yaml'
 import {toYamlFile} from 'zeug'
 
+import getTokenSize from 'lib/getTokenSize.js'
 import {CodeContentModule} from 'src/contentModule/CodeContentModule.js'
 import {HtmlContentModule} from 'src/contentModule/HtmlContentModule.js'
 import {MarkdownContentModule} from 'src/contentModule/MarkdownContentModule.js'
@@ -80,6 +81,19 @@ type CachePage = Dict<CacheEntry>
 
 type Cache = Dict<CachePage>
 
+type ReportContentEntry = {
+  sizeBytes: number
+}
+
+type ReportEntry = {
+  content: Dict<ReportContentEntry>
+  timeMs: number
+}
+
+type ReportPage = Dict<ReportEntry>
+
+type Report = Dict<ReportPage>
+
 type TreeNode = {
   contentModules: Array<ContentModule>
   entries: Array<TreeNode>
@@ -100,6 +114,7 @@ const runSingle = async (args: RunSingleOptions) => {
   const {default: entries} = await import(pathToFileURL(entriesScriptFile).toString()) as {default: Entries}
   debug('Entries: %O', entries)
   let cacheIndex: Cache = {}
+  const report: Report = {} // Initialize the report object
   if (Object.keys(entries).length === 0) {
     console.log(`No entries found in ${ansi.linkedFile(entriesScriptFile)}`)
     return
@@ -116,6 +131,7 @@ const runSingle = async (args: RunSingleOptions) => {
   const contentModulePages: Dict<Array<ContentModule> | undefined> = {}
   const treePages: Dict<TreeNode> = {}
   const processEntry = async (value: BaseEntry, id: string, parentNode: TreeNode, pathSegments: Array<string>): Promise<void> => {
+    const startTime = Date.now() // Start timing
     const entryId = id || '(no id)'
     const node: TreeNode = {
       id: entryId,
@@ -160,7 +176,10 @@ const runSingle = async (args: RunSingleOptions) => {
     const pageId = value.page ?? ''
     if (!cacheIndex[pageId])
       cacheIndex[pageId] = {}
+    if (!report[pageId])
+      report[pageId] = {}
     const pageCache = cacheIndex[pageId]
+    const pageReport = report[pageId]
     const entryHash = hashObject(entry)
     const cachedEntry = pageCache[entryId]
     debug('Found cached entry: %O', cachedEntry)
@@ -194,6 +213,16 @@ const runSingle = async (args: RunSingleOptions) => {
             title: cmData.title,
           })
           newContentModules.push(cachedContentModule)
+          // Compute sizeBytes and store in report
+          const sizeBytes = Buffer.byteLength(sourceText, 'utf8')
+          if (!pageReport[entryId])
+            pageReport[entryId] = {
+              timeMs: 0,
+              content: {},
+            }
+          pageReport[entryId].content[cmKey] = {
+            sizeBytes,
+          }
         } else {
           useCache = false
           debug('File not found: %s', contentModulePath)
@@ -220,48 +249,52 @@ const runSingle = async (args: RunSingleOptions) => {
           timestamp,
           content: {},
         }
-        for (const [index, contentModule] of newContentModules.entries()) {
-          const contentModuleType = contentModule.constructor.name.replace(/ContentModule$/, '').toLowerCase()
-          console.log(ansi.make`+ ${contentModule.sourceText.length} characters from ${contentModuleType}`)
-          const safePathSegments = currentPathSegments.map(segment => segment.replaceAll(/[^\-.0-9a-z_]/gi, '_'))
-          const folder = path.join(contentFolder, ...safePathSegments)
-          const fileStem = `${entryId}_${contentModuleType}_${index}`
-          const fileName = `${fileStem}.${contentModule.getFileExtension()}`
-          const file = path.join(folder, fileName)
-          await fs.outputFile(file, contentModule.sourceText)
-          debug(`Wrote content module to ${ansi.linkedFile(file)}`)
-          const cacheEntry = {
-            title: contentModule.title,
-            type: contentModuleType,
-          }
-          const extension = contentModule.getFileExtension()
-          if (extension !== 'txt')
-            cacheEntry.extension = extension
-          pageCache[entryId].content[fileStem] = cacheEntry
-          const page = value.page ?? ''
-          if (contentModulePages[page] === undefined)
-            contentModulePages[page] = []
-          contentModulePages[page].push(contentModule)
-          node.contentModules.push(contentModule)
+      }
+      for (const [index, contentModule] of newContentModules.entries()) {
+        const contentModuleType = contentModule.constructor.name.replace(/ContentModule$/, '').toLowerCase()
+        console.log(ansi.make`+ ${contentModule.sourceText.length} characters from ${contentModuleType}`)
+        const safePathSegments = currentPathSegments.map(segment => segment.replaceAll(/[^\-.0-9a-z_]/gi, '_'))
+        const folder = path.join(contentFolder, ...safePathSegments)
+        const fileStem = `${entryId}_${contentModuleType}_${index}`
+        const fileName = `${fileStem}.${contentModule.getFileExtension()}`
+        const file = path.join(folder, fileName)
+        await fs.outputFile(file, contentModule.sourceText)
+        debug(`Wrote content module to ${ansi.linkedFile(file)}`)
+        const cacheEntry = {
+          title: contentModule.title,
+          type: contentModuleType,
         }
-      } else {
-        for (const [index, contentModule] of newContentModules.entries()) {
-          const contentModuleType = contentModule.constructor.name.replace(/ContentModule$/, '').toLowerCase()
-          console.log(ansi.make`+ ${contentModule.sourceText.length} characters from ${contentModuleType}`)
-          const safePathSegments = currentPathSegments.map(segment => segment.replaceAll(/[^\-.0-9a-z_]/gi, '_'))
-          const folder = path.join(contentFolder, ...safePathSegments)
-          const fileName = `${entryId}_${contentModuleType}_${index}.${contentModule.getFileExtension()}`
-          const file = path.join(folder, fileName)
-          await fs.outputFile(file, contentModule.sourceText)
-          debug(`Wrote content module to ${ansi.linkedFile(file)}`)
-          const page = value.page ?? ''
-          if (contentModulePages[page] === undefined)
-            contentModulePages[page] = []
-          contentModulePages[page].push(contentModule)
-          node.contentModules.push(contentModule)
+        const extension = contentModule.getFileExtension()
+        if (extension !== 'txt')
+          cacheEntry.extension = extension
+        if (args.useCache) {
+          pageCache[entryId].content[fileStem] = cacheEntry
+        }
+        const page = value.page ?? ''
+        if (contentModulePages[page] === undefined)
+          contentModulePages[page] = []
+        contentModulePages[page].push(contentModule)
+        node.contentModules.push(contentModule)
+        const sizeBytes = Buffer.byteLength(contentModule.sourceText, 'utf8')
+        if (!pageReport[entryId])
+          pageReport[entryId] = {
+            timeMs: 0,
+            content: {},
+          }
+        pageReport[entryId].content[fileStem] = {
+          bytes: sizeBytes,
+          tokens: getTokenSize(contentModule.sourceText),
         }
       }
     }
+    const endTime = Date.now()
+    const timeMs = endTime - startTime
+    if (!pageReport[entryId])
+      pageReport[entryId] = {
+        timeMs: 0,
+        content: {},
+      }
+    pageReport[entryId].timeMs = timeMs
   }
   for (const [id, value] of Object.entries(entries)) {
     const pageId = value.page ?? ''
@@ -295,6 +328,15 @@ const runSingle = async (args: RunSingleOptions) => {
       console.log(`Saved cache index to ${ansi.linkedFile(cacheIndexFile)}`)
     } catch (error) {
       console.log(`Failed to save cache index: ${error}`)
+    }
+  }
+  if (args.debug) {
+    try {
+      const reportFile = path.join(args.outputFolder, 'report.yml')
+      await toYamlFile(report, reportFile)
+      console.log(`Saved report to ${ansi.linkedFile(reportFile)}`)
+    } catch (error) {
+      console.log(`Failed to save report: ${error}`)
     }
   }
 }

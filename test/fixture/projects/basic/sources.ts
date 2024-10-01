@@ -16,5 +16,23 @@ items.loraMakingGuide = {
     },
   },
 }
+items.kohyaHtml = {
+  page: 'kohya',
+  type: 'repo_glob',
+  extractor: 'htmlFromMarkdown',
+  target: {
+    owner: 'kohya-ss',
+    repo: 'sd-scripts',
+    branch: 'sd3',
+    pattern: [
+      'docs/train_SDXL-en.md',
+      'docs/masked_loss_README.md',
+    ],
+  },
+}
+items.kohyaMarkdown = {
+  ...items.kohyaHtml,
+  extractor: 'markdown',
+}
 
 export default items
