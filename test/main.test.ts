@@ -1,18 +1,19 @@
 import test from 'node:test'
 
 import * as path from 'forward-slash-path'
+import fs from 'fs-extra'
 
 import makeCli from 'src/makeCli.js'
 
 const thisFolder = path.cleanPath(import.meta.dirname)
 const rootFolder = path.dirname(thisFolder)
 test('run', async () => {
+  const outputFolder = `${rootFolder}/out/test/basic`
+  await fs.emptyDir(outputFolder)
   const cli = makeCli()
   await cli([
     '--projects-folder',
     `${thisFolder}/fixture/projects`,
-    // '--use-cache',
-    // 'false',
     '--debug',
     '--output-mode',
     'none',
